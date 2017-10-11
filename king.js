@@ -27,12 +27,12 @@ var kingwolfofsky = {
                 div.appendChild(text);
                 div.appendChild(focus);
                 document.body.appendChild(div);
-                focus.innerHTML = '|';
+                focus.innerHTML = 'o';
                 focus.style.cssText = 'display:inline-block;width:0px;overflow:hidden;z-index:-100;word-wrap:break-word;word-break:break-all;';
-                div.className = this._cloneStyle(elem);
-                div.style.cssText = 'visibility:hidden;display:inline-block;z-index:-100;word-wrap:break-word;word-break:break-all;overflow:hidden;';
+                div.className = 'clone general';
+                div.style.cssText = 'visibility:hidden;display:inline-block;z-index:-1;word-wrap:break-word;word-break:break-all;overflow:hidden;';
             };
-
+           
             var strTmp = elem.value.substring(0, index).replace(/</g, '<').replace(/>/g, '>').replace(/\n/g, '<br/>').replace(/\s/g, none);
             text.innerHTML = strTmp;
 
@@ -47,48 +47,6 @@ var kingwolfofsky = {
         }
     },
 
-    // 克隆元素样式并返回类
-    _cloneStyle: function (elem, cache) {
-        if (!cache && elem['${cloneName}']) return elem['${cloneName}'];
-        var className, name, rstyle = /^(number|string)$/;
-        var rname = /^(content|outline|outlineWidth)$/; //Opera: content; IE8:outline && outlineWidth
-        var cssText = [], sStyle = elem.style;
-
-        for (name in sStyle) {
-            if (!rname.test(name)) {
-                val = this._getStyle(elem, name);
-                if (val !== '' && rstyle.test(typeof val)) { // Firefox 4
-                    name = name.replace(/([A-Z])/g, "-$1").toLowerCase();
-                    cssText.push(name);
-                    cssText.push(':');
-                    cssText.push(val);
-                    cssText.push(';');
-                };
-            };
-        };
-        cssText = cssText.join('');
-        elem['${cloneName}'] = className = 'clone';
-        this._addHeadStyle('.' + className + '{' + cssText + '}');
-        return className;
-    },
-
-    // 向页头插入样式
-    _addHeadStyle: function (content) {
-        var style = this._style[document];
-        if (!style) {
-            style = this._style[document] = document.createElement('style');
-            document.getElementsByTagName('head')[0].appendChild(style);
-        };
-        style.styleSheet && (style.styleSheet.cssText += content) || style.appendChild(document.createTextNode(content));
-    },
-    _style: {},
-
-    // 获取最终样式
-    _getStyle: 'getComputedStyle' in window ? function (elem, name) {
-        return getComputedStyle(elem, null)[name];
-    } : function (elem, name) {
-        return elem.currentStyle[name];
-    },
 
     // 获取光标在文本框的位置
     _getFocus: function (elem) {
