@@ -1,0 +1,130 @@
+@font-face {
+    font-family: "Ubuntu";
+    src: url("ubuntu.woff2") format("woff2");
+}
+
+
+:root {
+    --bg: #000;
+    --font-color: #23e42b;
+    --preview-bg: #000;
+}
+
+html,
+body {
+    font-family: "Ubuntu";
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: var(--bg);
+}
+
+
+
+canvas {
+    display: block;
+    position: absolute;
+    z-index: 0;
+    transition: opacity 5s ease-out;
+}
+
+#editor {
+    outline: none;
+    border: none;
+    min-height: 500px;
+    width: calc(60% + 6px);
+    border-left: solid #00d854 6px;
+    background: transparent;
+    position: absolute;
+    z-index: 1;
+}
+
+#preview {
+    background: var(--preview-bg);
+    pointer-events: none;
+    color: var(--font-color);
+    word-break: break-all;
+}
+
+.preview p,
+h1,
+h2,
+h3,
+h4,
+ul {
+    font-size: 24px;
+    margin: 0;
+}
+
+
+.preview p {
+    white-space: pre-wrap; //margin-bottom: 48px;
+}
+
+.preview h1,
+h2,
+h3,
+h4,
+h5 {
+    margin-left: 28px;
+}
+
+.preview strong,
+del {
+    margin: 0 28px;
+}
+
+.preview em {
+    margin: 0 14px;
+}
+
+.preview pre {
+    margin: 48px 0;
+}
+
+.general {
+    height: auto;
+    width: 60%;
+    top: 5%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    position: absolute;
+    font-size: 24px;
+    line-height: 48px;
+    padding: 20px;
+    font-family: monospace;
+    color: var(--font-color);
+    background: var(--bg);
+    min-width: 600px;
+}
+
+.cursor {
+    position: absolute;
+    font-size: 24px;
+    z-index: 999;
+    opacity: 1;
+    animation: blink 1s infinite;
+    color: var(--font-color);
+}
+
+
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+        color: #23e42b;
+    }
+    50% {
+        opacity: 0;
+        color: #000;
+    }
+    100% {
+        opacity: 1;
+        color: #23e42b;
+    }
+}
+
+
+}
