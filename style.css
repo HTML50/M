@@ -1,8 +1,9 @@
 @font-face {
-    font-family: "Ubuntu";
-    src: url("ubuntu.woff2") format("woff2");
+    font-family: 'monospace';
+    font-style: normal;
+    font-weight: normal;
+    src: local('monospace'),url("monospace.woff") format("woff");
 }
-
 
 :root {
     --bg: #000;
@@ -12,7 +13,7 @@
 
 html,
 body {
-    font-family: "Ubuntu";
+    font-family: 'monospace';
     width: 100%;
     height: 100%;
     padding: 0;
@@ -20,21 +21,44 @@ body {
     background: var(--bg);
 }
 
-
-
 canvas {
+    top:0;left: 0;
     display: block;
     position: absolute;
     z-index: 0;
-    transition: opacity 5s ease-out;
+    transition: opacity 5s cubic-bezier(0, 1.13, 0.58, 1);
+}
+.general {
+    height: auto;
+    width: 60%;
+    top: 5%;
+    left: 0;
+    right: 0;
+    margin: auto;
+    position: absolute;
+    font-size: 24px;
+    line-height: 48px;
+    padding: 20px;
+    font-family: "monospace";
+    color: var(--font-color);
+    background: var(--bg);
+    min-width: 600px;
+    word-break: break-all;
+}
+
+.cursor {
+    position: absolute;
+    font-size: 24px;
+    z-index: 999;
+    opacity: 1;
+    animation: blink 1s infinite;
+    color: var(--font-color);
 }
 
 #editor {
     outline: none;
     border: none;
     min-height: 500px;
-    width: calc(60% + 6px);
-    border-left: solid #00d854 6px;
     background: transparent;
     position: absolute;
     z-index: 1;
@@ -44,7 +68,18 @@ canvas {
     background: var(--preview-bg);
     pointer-events: none;
     color: var(--font-color);
-    word-break: break-all;
+}
+
+
+#preview {
+    background: var(--preview-bg);
+    pointer-events: none;
+    color: var(--font-color);
+}
+
+.blink::after {
+    content: '█';
+    animation: blink 800ms infinite;
 }
 
 .preview p,
@@ -59,7 +94,7 @@ ul {
 
 
 .preview p {
-    white-space: pre-wrap; //margin-bottom: 48px;
+    white-space: pre-wrap;
 }
 
 .preview h1,
@@ -83,33 +118,6 @@ del {
     margin: 48px 0;
 }
 
-.general {
-    height: auto;
-    width: 60%;
-    top: 5%;
-    left: 0;
-    right: 0;
-    margin: auto;
-    position: absolute;
-    font-size: 24px;
-    line-height: 48px;
-    padding: 20px;
-    font-family: monospace;
-    color: var(--font-color);
-    background: var(--bg);
-    min-width: 600px;
-}
-
-.cursor {
-    position: absolute;
-    font-size: 24px;
-    z-index: 999;
-    opacity: 1;
-    animation: blink 1s infinite;
-    color: var(--font-color);
-}
-
-
 
 @keyframes blink {
     0% {
@@ -124,7 +132,4 @@ del {
         opacity: 1;
         color: #23e42b;
     }
-}
-
-
 }

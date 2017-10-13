@@ -1,12 +1,36 @@
 let editor = document.getElementById('editor'),
         cursor = document.getElementById('cursor'),
+        preview = document.getElementById('preview'),
         content, count = 0;
+
+
+
+    if(1){
+        localStorage.hasVisited=true;
+        preview.innerText = '';
+        setTimeout(function(){
+            var text = "Ne-o...--------|W-a-ke up...";
+
+            setTimeout(startTyping, 1000, text);
+
+            function startTyping(text) {
+            for (var i = 0; i < text.length; i++) {
+            setTimeout(addText, 100*i, text[i]);
+             }
+            }
+
+            function addText(c) {
+            if (c !== "-" && c!== "|") preview.innerText += c;
+            if( c === "|") preview.innerText += '\n';
+            } 
+                },3000)
+    }
 
 
     autosize(editor);
     editor.focus();
     previewMode();
-    getCursor(editor);
+    //getCursor(editor);
 
     editor.addEventListener('keydown', function(e) {
 
@@ -15,7 +39,7 @@ let editor = document.getElementById('editor'),
             content = editor.value;
             count = content.length;
 
-            console.log(e.keyCode)
+            //console.log(e.keyCode)
 
 
             getCursor(editor);

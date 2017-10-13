@@ -10,14 +10,14 @@ var chinese = "九州生气恃风雷万马齐喑究可哀我劝天公重抖擞�
 //converting the string into an array of single characters
 chinese = chinese.split("");
 
-var font_size = 20;
+var font_size = 25;
 var columns = c.width/font_size; //number of columns for the rain
 //an array of drops - one per column
 var drops = [];
 //x below is the x coordinate
 //1 = y co-ordinate of the drop(same for every drop initially)
 for(var x = 0; x < columns; x++)
-	drops[x] = 1; 
+	drops[x] = c.height / font_size + 1; 
 
 //drawing the characters
 function draw()
@@ -39,7 +39,7 @@ function draw()
 		
 		//sending the drop back to the top randomly after it has crossed the screen
 		//adding a randomness to the reset to make the drops scattered on the Y axis
-		if(drops[i]*font_size > c.height && Math.random() > 0.99)
+		if(drops[i]*font_size > c.height && Math.random() > 0.995)
 			drops[i] = 0;
 		
 		//incrementing Y coordinate
@@ -47,12 +47,11 @@ function draw()
 	}
 }
 
-var id = setInterval(draw, 33);
+var id = setInterval(draw, 42);
 setTimeout(function(){
-	for(var x = 0; x < columns; x++)
-	c.style.opacity = 0.2;
-},5000)
+	c.style.opacity = 0.1;
+},2000)
 setTimeout(function(){
-	c.style.zIndex = 0;
+	//c.style.zIndex = 0;
 	//clearInterval(id)
 },8000)
