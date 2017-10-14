@@ -48,10 +48,3 @@ function draw()
 }
 
 var id = setInterval(draw, 42);
-setTimeout(function(){
-	c.style.opacity = 0.1;
-},2000)
-setTimeout(function(){
-	//c.style.zIndex = 0;
-	//clearInterval(id)
-},8000)

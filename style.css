@@ -19,6 +19,7 @@ body {
     padding: 0;
     margin: 0;
     background: var(--bg);
+    overflow-x: hidden;
 }
 
 canvas {
@@ -26,7 +27,7 @@ canvas {
     display: block;
     position: absolute;
     z-index: 0;
-    transition: opacity 5s cubic-bezier(0, 1.13, 0.58, 1);
+    transition: opacity 3s cubic-bezier(1, 0.01, 1, 1.17);
 }
 .general {
     height: auto;
@@ -55,6 +56,29 @@ canvas {
     color: var(--font-color);
 }
 
+
+#tip{
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    color: #efefef;
+    animation: blink 2s infinite;
+}
+
+
+
+#wordCount{
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    color: #efefef;
+    display: none;
+}
+
+#wordCount:after {
+    content: ' words';
+}
+
 #editor {
     outline: none;
     border: none;
@@ -62,6 +86,7 @@ canvas {
     background: transparent;
     position: absolute;
     z-index: 1;
+    display: none;
 }
 
 #preview {
@@ -79,7 +104,7 @@ canvas {
 
 .blink::after {
     content: '█';
-    animation: blink 800ms infinite;
+    animation: blink 1s infinite;
 }
 
 .preview p,
@@ -91,7 +116,6 @@ ul {
     font-size: 24px;
     margin: 0;
 }
-
 
 .preview p {
     white-space: pre-wrap;

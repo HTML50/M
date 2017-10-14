@@ -1,4 +1,3 @@
 # M
 
-a markdown editor with Matrix style
-
+a markdown editor with  *The Matrix* style

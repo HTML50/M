@@ -2,14 +2,16 @@
 <html>
 
 <head>
-    <title>M | a Markdown editor</title>
+    <title>the M | a Markdown editor</title>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
     <textarea id="editor" class="general"></textarea>
-    <div id="preview" class="general preview">try Markdown here</div>
+    <div id="preview" class="general preview"></div>
     <div id="cursor" class="cursor"></div>
+    <div id="wordCount">0</div>
+    <div id="tip"></div>
     <canvas id="c"></canvas>
     <script src="marked.js"></script>
     <script src="autosize.min.js"></script>

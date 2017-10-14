@@ -1,36 +1,59 @@
 let editor = document.getElementById('editor'),
-        cursor = document.getElementById('cursor'),
-        preview = document.getElementById('preview'),
-        content, count = 0;
+    cursor = document.getElementById('cursor'),
+    preview = document.getElementById('preview'),
+    content, count = 0;
 
 
+if (!localStorage.hasVisited) {
+    localStorage.hasVisited = true;
+    setTimeout(function() {
+        c.style.opacity = 0.1;
+    }, 2000)
 
-    if(1){
-        localStorage.hasVisited=true;
-        preview.innerText = '';
-        setTimeout(function(){
-            var text = "Ne-o...--------|W-a-ke up...";
+    setTimeout(function() {
+        var text = "-----------------Ne-o.--.--.--------W--a-k-e up----.--..----------|--Th--e -ma--t-rix h-a--s yo-u--------.-------|-----press any key to continue";
+        preview.classList.add('blink');
 
-            setTimeout(startTyping, 1000, text);
+        setTimeout(startTyping, 1000, text);
 
-            function startTyping(text) {
+        function startTyping(text) {
             for (var i = 0; i < text.length; i++) {
-            setTimeout(addText, 100*i, text[i]);
-             }
+                setTimeout(addText, 100 * i, text[i]);
             }
+            setTimeout(function() {
+                setTimeout(function() {
+                    document.addEventListener('keyup', function() {
+                        preview.classList.remove('blink');
+                        document.removeEventListener('keyup', arguments.callee);
+                        init();
+                    })
+                }, 100);
+            }, 100 * i)
+        }
 
-            function addText(c) {
-            if (c !== "-" && c!== "|") preview.innerText += c;
-            if( c === "|") preview.innerText += '\n';
-            } 
-                },3000)
+        function addText(c) {
+            if (c !== "-" && c !== "|") preview.innerText += c;
+            if (c === "|") preview.innerText += '\n';
+        }
+    }, 4000);
+} else {
+    init();
+}
+
+function init() {
+    preview.innerText = 'try Markdown here';
+    if(localStorage.save){
+        content = JSON.parse(localStorage.save);
+        editor.value = content;
+        preview.innerHTML = marked(content);
     }
-
-
+    editor.style.display = 'block';
+    wordCount.style.display = 'block';
+    c.style.opacity = 0.1;
     autosize(editor);
     editor.focus();
     previewMode();
-    //getCursor(editor);
+    getCursor(editor);
 
     editor.addEventListener('keydown', function(e) {
 
@@ -45,6 +68,7 @@ let editor = document.getElementById('editor'),
             getCursor(editor);
             if (e.keyCode > 48 && e.keyCode < 91 || e.keyCode === 229) setFade();
             preview.innerHTML = marked(content);
+            wordCount.innerText = count;
 
         }, 0)
 
@@ -61,11 +85,9 @@ let editor = document.getElementById('editor'),
                 e.preventDefault();
                 return false;
             }
+
             return true;
         }
-
-
-
 
         if (e.keyCode === 37 || e.keyCode === 38 || e.keyCode === 39 || e.keyCode === 40) {
 
@@ -80,8 +102,6 @@ let editor = document.getElementById('editor'),
         if ((e.ctrlKey && e.keyCode === 65) || (e.shiftKey && e.keyCode < 41 && e.keyCode > 37) || !e.shiftKey && !e.ctrlKey) {
             editMode();
         }
-
-
 
         if (!e.shiftKey && !e.ctrlKey && preview.style.display == 'none' || preview.style.display == '') {
             previewMode();
@@ -100,7 +120,7 @@ let editor = document.getElementById('editor'),
 
 
     document.addEventListener('mousedown', function() {
-        editMode(); 
+        editMode();
     })
 
 
@@ -109,50 +129,65 @@ let editor = document.getElementById('editor'),
     })
 
 
-    function getCursor(elem) {
-        let p = kingwolfofsky.getInputPositon(elem);
+    setInterval(autoSave,60000);
+}
 
-        cursor.style.top = (p.top + 10) + 'px';
-        cursor.style.left = p.left + 'px';
 
-        if (editor.selectionStart !== count) {
-            cursor.innerHTML = "|";
-        } else {
-            cursor.innerHTML = "█";
-        }
 
+function getCursor(elem) {
+    let p = kingwolfofsky.getInputPositon(elem);
+
+    cursor.style.top = (p.top + 10) + 'px';
+    cursor.style.left = p.left + 'px';
+
+    if (editor.selectionStart !== count) {
+        cursor.innerHTML = "|";
+    } else {
+        cursor.innerHTML = "█";
     }
 
-    function setFade() {
-        let top = cursor.style.top,
-            left = (parseInt(cursor.style.left) - 14) + 'px',
-            ele = document.createElement('span'),
-            timeStamp = new Date().getTime();
+}
 
-        ele.id = 'fade' + timeStamp;
-        ele.style.cssText = 'display:inline-block;position:absolute;top:' + top + ';left:' + left + ';transition:opacity 0.5s;width:24px;height:28px;background:#000';
+function setFade() {
+    let top = cursor.style.top,
+        left = (parseInt(cursor.style.left) - 14) + 'px',
+        ele = document.createElement('span'),
+        timeStamp = new Date().getTime();
 
-        document.body.appendChild(ele);
+    ele.id = 'fade' + timeStamp;
+    ele.style.cssText = 'display:inline-block;position:absolute;top:' + top + ';left:' + left + ';transition:opacity 0.5s;width:24px;height:28px;background:#000';
+
+    document.body.appendChild(ele);
 
 
-        setTimeout(function() {
-            document.getElementById(ele.id).style.opacity = 0;
-        }, 0)
+    setTimeout(function() {
+        document.getElementById(ele.id).style.opacity = 0;
+    }, 0)
 
-        setTimeout(function() {
-            document.body.removeChild(document.getElementById(ele.id))
-        }, 500)
+    setTimeout(function() {
+        document.body.removeChild(document.getElementById(ele.id))
+    }, 500)
 
+}
+
+
+function autoSave(){
+    if(content.trim()!==''){
+       localStorage.save = JSON.stringify(content);
+       tip.innerText= 'auto saving...';
+        setTimeout(function(){ tip.innerText= '';},3000)
     }
+}
 
-    function editMode() {
-        cursor.style.visibility = 'hidden';
-        editor.style.opacity = '1';
-        preview.style.display = 'none';
-    }
 
-    function previewMode() {
-        cursor.style.visibility = 'visible';
-        editor.style.opacity = '0';
-        preview.style.display = 'block';
-    }
+function editMode() {
+    cursor.style.visibility = 'hidden';
+    editor.style.opacity = '1';
+    preview.style.display = 'none';
+}
+
+function previewMode() {
+    cursor.style.visibility = 'visible';
+    editor.style.opacity = '0';
+    preview.style.display = 'block';
+}
