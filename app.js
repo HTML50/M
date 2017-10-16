@@ -1,7 +1,7 @@
 let editor = document.getElementById('editor'),
     cursor = document.getElementById('cursor'),
     preview = document.getElementById('preview'),
-    content, count = 0;
+    content='', count = 0;
 
 
 if (!localStorage.hasVisited) {

@@ -2,7 +2,7 @@
     font-family: 'monospace';
     font-style: normal;
     font-weight: normal;
-    src: local('monospace'),url("monospace.woff") format("woff");
+    src: url("monospace.woff") format("woff");
 }
 
 :root {
