@@ -1,7 +1,7 @@
 let editor = document.getElementById('editor'),
     cursor = document.getElementById('cursor'),
     preview = document.getElementById('preview'),
-    content='', count = 0;
+    content='';
 
 
 if (!localStorage.hasVisited) {
@@ -60,7 +60,6 @@ function init() {
         setTimeout(function() {
 
             content = editor.value;
-            count = content.length;
 
             //console.log(e.keyCode)
 
@@ -68,7 +67,7 @@ function init() {
             getCursor(editor);
             if (e.keyCode > 48 && e.keyCode < 91 || e.keyCode === 229) setFade();
             preview.innerHTML = marked(content);
-            wordCount.innerText = count;
+            wordCount.innerText = editor.textLength;
 
         }, 0)
 
@@ -109,7 +108,7 @@ function init() {
 
 
 
-        if (editor.selectionStart === count) {
+        if (editor.selectionStart === editor.textLength) {
             setTimeout(function() {
                 document.documentElement.scrollTop = document.documentElement.scrollHeight;
             }, 0)
@@ -140,7 +139,7 @@ function getCursor(elem) {
     cursor.style.top = (p.top + 10) + 'px';
     cursor.style.left = p.left + 'px';
 
-    if (editor.selectionStart !== count) {
+    if (editor.selectionStart !== editor.textLength) {
         cursor.innerHTML = "|";
     } else {
         cursor.innerHTML = "█";
